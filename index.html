@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Website</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .profile-card {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .profile-card img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+        }
+
+        .auth-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Menu -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">My Website</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <!-- Profile Dropdown in Navbar -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
+                            data-bs-toggle="dropdown">
+                            Profile
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><span class="dropdown-item-text" id="userName"></span></li>
+                            <li><span class="dropdown-item-text" id="userEmail"></span></li>
+                            <li><span class="dropdown-item-text" id="userContact"></span></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="update-profile.html">Update Profile</a></li>
+                            <li><button class="dropdown-item text-danger" id="logoutBtn">Logout</button></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Image Slider -->
+    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item text-center active">
+                <img src="img/Slider/slider1.jpeg" class="d-block mx-auto w-60" alt="Slide 1">
+            </div>
+            <div class="carousel-item text-center">
+                <img src="img/Slider/slider2.jpeg" class="d-block mx-auto w-60" alt="Slide 2">
+            </div>
+            <div class="carousel-item text-center">
+                <img src="img/Slider/slider1.jpeg" class="d-block mx-auto w-60" alt="Slide 3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+
+    <!-- Profiles Section -->
+    <div class="container my-5" id="profiles">
+        <h2 class="text-center">Profiles</h2>
+        <div class="row">
+            <div class="col-md-4 profile-card">
+                <img src="img/Profile/profile1.jpeg" alt="Profile 1">
+                <h5>John Doe</h5>
+            </div>
+            <div class="col-md-4 profile-card">
+                <img src="img/Profile/profile2.png" alt="Profile 2">
+                <h5>Jane Smith</h5>
+            </div>
+            <div class="col-md-4 profile-card">
+                <img src="img/Profile/profile3.jpeg" alt="Profile 3">
+                <h5>Mike Johnson</h5>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script>
+        document.getElementById("adminLoginForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            let email = document.getElementById("adminEmail").value;
+            let password = document.getElementById("adminPassword").value;
+
+            // Validate admin login using config.js
+            if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
+                localStorage.setItem("adminAuthenticated", JSON.stringify(ADMIN_CREDENTIALS));
+                window.location.href = "admin.html";
+            } else {
+                alert("Invalid admin credentials.");
+            }
+        });
+    </script>
+    <script>
+        const user = JSON.parse(localStorage.getItem("authenticated"));
+
+        if (!user) {
+            window.location.href = "login.html";
+        } else {
+            document.getElementById("userName").textContent = `${user.firstName} ${user.lastName}`;
+            document.getElementById("userEmail").textContent = `Email: ${user.email}`;
+            document.getElementById("userContact").textContent = `Contact: ${user.contactNumber}`;
+        }
+
+        document.getElementById("logoutBtn").addEventListener("click", function () {
+            localStorage.removeItem("authenticated");
+            window.location.href = "login.html";
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

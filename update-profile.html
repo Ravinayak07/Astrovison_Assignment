@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="auth-container">
+        <h3 class="text-center">Update Profile</h3>
+        <form id="updateForm">
+            <div class="mb-3">
+                <label>First Name</label>
+                <input type="text" class="form-control" id="updateFirstName" required>
+            </div>
+            <div class="mb-3">
+                <label>Last Name</label>
+                <input type="text" class="form-control" id="updateLastName" required>
+            </div>
+            <div class="mb-3">
+                <label>Contact Number</label>
+                <input type="tel" class="form-control" id="updateContactNumber" required>
+            </div>
+            <div class="mb-3 text-center">
+                <button type="submit" class="btn btn-success w-100">Save Changes</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const user = JSON.parse(localStorage.getItem("authenticated"));
+        if (!user) window.location.href = "login.html";
+
+        document.getElementById("updateFirstName").value = user.firstName;
+        document.getElementById("updateLastName").value = user.lastName;
+        document.getElementById("updateContactNumber").value = user.contactNumber;
+
+        document.getElementById("updateForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            user.firstName = document.getElementById("updateFirstName").value;
+            user.lastName = document.getElementById("updateLastName").value;
+            user.contactNumber = document.getElementById("updateContactNumber").value;
+
+            let users = JSON.parse(localStorage.getItem("users"));
+            let index = users.findIndex(u => u.email === user.email);
+            users[index] = user;
+            localStorage.setItem("users", JSON.stringify(users));
+            localStorage.setItem("authenticated", JSON.stringify(user));
+
+            alert("Profile updated successfully!");
+            window.location.href = "index.html";
+        });
+    </script>
+</body>
+
+</html>
